@@ -25,6 +25,37 @@ def home():
 # The functions below should be applicable to all Flask apps.
 ###
 
+@app.route('/api/thumbnails')
+def thumbnails():
+    url = "https://www.walmart.com/ip/54649026"
+    result = requests.get(url)
+    soup = BeautifulSoup(result.text, "html.parser")
+    
+    og_image = (soup.find('meta', property='og:image') or
+                    soup.find('meta', attrs={'name': 'og:image'}))
+    if og_image and og_image['content']:
+        print og_image['content']
+    
+        print ''
+
+    # This will look for a link tag with a rel attribute set to 'image_src'
+    thumbnail_spec = soup.find('link', rel='image_src')
+    if thumbnail_spec and thumbnail_spec['href']:
+        print thumbnail_spec['href']
+        print ''
+
+
+    image = "%s"
+    imglist=[]
+    for img in soup.findAll("img", src=True):
+        imag=image % urlparse.urljoin(url, img["src"])
+        imglist+=[imag]
+        
+    if request.methods == "GETS":
+        
+        return jsonify(error=None, message="Sucessful", thumbnails=imglist)
+
+
 @app.route('/<file_name>.txt')
 def send_text_file(file_name):
     """Send your static text file."""

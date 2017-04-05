@@ -24,7 +24,7 @@ image = "%s"
 imglist=[]
 for img in soup.findAll("img", src=True):
     imag=image % urlparse.urljoin(url, img["src"])
-    imglist+=[imag]
+    imglist.append([imag])
 print imglist
    #print image % urlparse.urljoin(url, img["src"])
    #print ''
