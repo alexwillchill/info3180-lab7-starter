@@ -55,6 +55,10 @@ def thumbnails():
         
         return jsonify(error=None, message="Sucessful", thumbnails=imglist)
 
+@app.route('thumbnails/view')
+def viewthumbnail():
+    return render_template("thumbnails.html")
+    
 
 @app.route('/<file_name>.txt')
 def send_text_file(file_name):
